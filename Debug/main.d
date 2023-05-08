@@ -15,9 +15,12 @@ main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/ccs/tools/compil
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/tm4c123gh6pm.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_memmap.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_types.h
+main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_ints.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/sysctl.h
+main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/interrupt.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/gpio.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/systick.h
+main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/timer.h
 
 ../main.c:
 
@@ -49,9 +52,15 @@ C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_memmap.h:
 
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_types.h:
 
+C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/inc/hw_ints.h:
+
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/sysctl.h:
+
+C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/interrupt.h:
 
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/gpio.h:
 
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/systick.h:
+
+C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/timer.h:
 
