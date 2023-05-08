@@ -21,6 +21,8 @@ main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/interr
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/gpio.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/systick.h
 main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/timer.h
+main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/uart.h
+main.obj: C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/pin_map.h
 
 ../main.c:
 
@@ -63,4 +65,8 @@ C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/gpio.h:
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/systick.h:
 
 C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/timer.h:
+
+C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/uart.h:
+
+C:/Users/gaban/OneDrive/Documentos/programas/Tivaware/driverlib/pin_map.h:
 

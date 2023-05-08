@@ -9,6 +9,9 @@
 #include "driverlib/gpio.h"
 #include "driverlib/systick.h"
 #include "driverlib/timer.h"
+#include "driverlib/uart.h"
+#include "driverlib/interrupt.h"
+#include "driverlib/pin_map.h"
 #define XTAL 16000000
 
 //*************************************************************************************
@@ -17,6 +20,7 @@
 uint32_t i = 0;
 uint32_t ui32SysClock = 0;
 uint32_t ui32LoadValue = 0;
+volatile char receivedChar;
 
 //*************************************************************************************
 //***************************prototipos de funciones***********************************
@@ -25,6 +29,7 @@ void delay(uint32_t msec); //funcion para crear delay en milisegundos
 void delay1ms(void); //funcion de delay de 1 milisegundo
 void pinset(void); //configuracion de pines
 void tmr0set(void); //configuracion del TMR0
+void UARTset(void);//configuracion del UART
 
 //*************************************************************************************
 //**************************Interrupciones*********************************************
@@ -38,20 +43,46 @@ void Timer0IntHandler(void)
     GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_1, ~GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_1) & GPIO_PIN_1);
 }
 
+void UART0IntHandler(void)
+{
+    // Limpiar la bandera de interrupción
+    UARTIntClear(UART0_BASE, UART_INT_RX);
+
+    // Leer el carácter recibido
+    receivedChar = (char)UARTCharGetNonBlocking(UART0_BASE);
+
+    // Habilitar/deshabilitar el toggle de los LEDs según el carácter recibido
+    switch (receivedChar)
+    {
+        case 'r':
+            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, ~GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) & GPIO_PIN_1);
+            delay(500);
+            break;
+        case 'g':
+            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, ~GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_3) & GPIO_PIN_3);
+            delay(500);
+            break;
+        case 'b':
+            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, ~GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_2) & GPIO_PIN_2);
+            delay(500);
+            break;
+    }
+}
+
 //*************************************************************************************
 //***************************codigo principal******************************************
 //*************************************************************************************
 int main(void)
 {
-   SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
-   ui32SysClock = SysCtlClockGet();
+   SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ); //reloj a 40Mhz
+   ui32SysClock = SysCtlClockGet(); //variable para guardar valor del reloj
+
    pinset(); //configuracion de los GPIOs
    tmr0set(); //configuracion del TMR0
+   UARTset(); // configuracion del UART
 
 	while(1)
-	{
-
-	}
+	{}
 }
 
 //*************************************************************************************
@@ -113,3 +144,26 @@ void tmr0set(void)
     TimerEnable(TIMER0_BASE, TIMER_A);
 }
 
+void UARTset(void)
+{
+    //habilitamos el puerto del UART
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+
+    //habilitamos modulo UART
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
+
+    //configuracion de Tx y Rx
+    GPIOPinConfigure(GPIO_PA0_U0RX);
+    GPIOPinConfigure(GPIO_PA1_U0TX);
+    GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+
+    //configuracion del UART
+    UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
+
+    // Habilitar las interrupciones de UART0
+    UARTIntEnable(UART0_BASE, UART_INT_RX);
+    IntEnable(INT_UART0);
+
+    // Habilitar el módulo UART0
+    UARTEnable(UART0_BASE);
+}
